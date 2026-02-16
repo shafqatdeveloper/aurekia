@@ -50,7 +50,7 @@ export default function CartPage() {
                   key={item.id}
                   className="group relative flex flex-col sm:flex-row gap-8 pb-12 border-b"
                 >
-                  <div className="relative aspect-[4/5] w-full sm:w-48 overflow-hidden bg-secondary shrink-0">
+                  <div className="relative aspect-4/5 w-full sm:w-48 overflow-hidden bg-secondary shrink-0">
                     <Image
                       src={item.image}
                       alt={item.name}

@@ -180,7 +180,7 @@ export function Navbar() {
       {/* Mobile Side Menu */}
       <div
         className={cn(
-          "fixed inset-0 z-[100] lg:hidden transition-all duration-700",
+          "fixed inset-0 z-100 lg:hidden transition-all duration-700",
           isMenuOpen ? "pointer-events-auto" : "pointer-events-none",
         )}
       >
@@ -205,7 +205,7 @@ export function Navbar() {
               Menu
             </h2>
             <button onClick={() => setIsMenuOpen(false)}>
-              <X className="w-6 h-6 stroke-[1]" />
+              <X className="w-6 h-6 stroke-1" />
             </button>
           </div>
 

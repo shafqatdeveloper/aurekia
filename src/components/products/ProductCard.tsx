@@ -33,7 +33,7 @@ export function ProductCard({
     <div className="group space-y-4">
       <Link
         href={`/products/${id}`}
-        className="block relative aspect-[4/5] overflow-hidden bg-secondary"
+        className="block relative aspect-4/5 overflow-hidden bg-secondary"
       >
         <Image
           src={image}
