@@ -1,8 +1,8 @@
 "use client";
-import Link from "next/link";
-import Image from "next/image";
-import { Plus } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
+import { Plus } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { toast } from "sonner";
 
 interface ProductCardProps {
@@ -13,55 +13,50 @@ interface ProductCardProps {
   category: string;
 }
 
-export function ProductCard({
-  id,
-  name,
-  price,
-  image,
-  category,
-}: ProductCardProps) {
+export function ProductCard({ id, name, price, image }: ProductCardProps) {
   const addItem = useCartStore((state) => state.addItem);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem({ id, name, price, image, category });
+    addItem({ id, name, price, image, category: "Product" });
     toast.success(`${name} added to your collection`);
   };
 
   return (
-    <div className="group space-y-4">
+    <div className="group bg-white shadow-[0_10px_30px_-15px_rgba(0,0,0,0.5)] transition-shadow duration-500 overflow-hidden">
       <Link
         href={`/products/${id}`}
-        className="block relative aspect-4/5 overflow-hidden bg-secondary"
+        className="block relative aspect-square overflow-hidden bg-secondary"
       >
         <Image
           src={image}
           alt={name}
           fill
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          className="object-cover transition-transform duration-1000 group-hover:scale-105"
         />
+
         <button
           onClick={handleAddToCart}
-          className="absolute bottom-4 right-4 bg-background p-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300 transform translate-y-0 lg:translate-y-2 lg:group-hover:translate-y-0 z-10 hover:bg-foreground hover:text-background"
+          className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-30 hover:bg-foreground hover:text-background border border-foreground/5"
         >
           <Plus className="w-5 h-5" />
         </button>
       </Link>
 
-      <div className="space-y-1">
-        <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-          {category}
+      <div className="p-6 md:p-8 text-center space-y-4">
+        <Link
+          href={`/products/${id}`}
+          className="block text-[11px] md:text-[13px] uppercase tracking-widest hover:opacity-50 transition-opacity leading-relaxed"
+        >
+          {name}
+        </Link>
+        <p className="text-[13px] md:text-sm tracking-wide text-foreground/80">
+          £{price.toLocaleString("en-GB", { minimumFractionDigits: 2 })}
+          <span className="text-[9px] uppercase tracking-widest opacity-60 ml-2 font-sans">
+            (Inc Vat)
+          </span>
         </p>
-        <div className="flex justify-between items-start">
-          <Link
-            href={`/products/${id}`}
-            className="text-sm font-bold uppercase tracking-wider hover:opacity-60 transition-opacity"
-          >
-            {name}
-          </Link>
-          <p className="text-sm font-light">${price.toFixed(2)}</p>
-        </div>
       </div>
     </div>
   );

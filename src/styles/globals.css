@@ -97,8 +97,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  --font-serif: var(--font-playfair);
-  --font-sans: var(--font-inter);
+  --font-serif: var(--font-tenor);
+  --font-sans: var(--font-lexend);
 }
 
 @layer base {
@@ -110,8 +110,11 @@
     color: var(--color-foreground);
     @apply font-sans antialiased;
   }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-serif tracking-tight uppercase;
+  h1, h2, h3 {
+    @apply font-serif tracking-wide uppercase;
+  }
+  h4, h5, h6 {
+    @apply font-sans tracking-tight uppercase;
   }
 }
 
@@ -129,4 +132,20 @@
   padding-bottom: 0 !important;
   opacity: 0;
   pointer-events: none;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+button{
+  cursor: pointer;
 }

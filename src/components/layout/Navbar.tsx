@@ -49,14 +49,14 @@ export function Navbar() {
           isScrolled ? "h-0 py-0 border-none" : "h-10",
         )}
       >
-        <div className="flex items-center gap-6 text-[9px] uppercase tracking-[0.2em] font-bold">
+        <div className="flex items-center gap-6 text-[11px] uppercase tracking-[0.2em] font-bold">
           <div className="flex items-center gap-2">
-            <Phone className="w-3 h-3" />
+            <Phone className="w-4 h-4" />
             <span>1-800-AURELIA</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-6 text-[9px] uppercase tracking-[0.2em] font-bold">
+        <div className="flex items-center gap-6 text-[11px] uppercase tracking-[0.2em] font-bold">
           <span className="hidden md:inline opacity-60 italic lowercase">
             Need help with a project?
           </span>
@@ -122,7 +122,7 @@ export function Navbar() {
               <Menu className="w-6 h-6 stroke-[1.5]" />
             </button>
 
-            <div className="hidden lg:flex items-center group max-w-xs">
+            <div className="hidden lg:flex items-center group max-w-xs lg:w-xs">
               <div className="relative w-full">
                 <input
                   type="text"
@@ -136,24 +136,24 @@ export function Navbar() {
 
           {/* Center: Logo */}
           <Link href="/" className="lg:justify-self-center text-center">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-serif tracking-[0.25em] uppercase pl-[0.25em]">
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-serif tracking-[0.25em] uppercase pl-[0.25em]">
               Aurelia
             </h1>
           </Link>
 
           {/* Right: Icons */}
-          <div className="flex items-center gap-4 lg:gap-8 justify-self-end">
+          <div className="flex items-center gap-3 justify-self-end">
             <Link
-              href="/login"
+              href="/profile"
               className="hidden sm:block hover:opacity-60 transition-opacity"
             >
-              <User className="w-5 h-5 stroke-[1.5]" />
+              <User className="w-6 h-6 stroke-[1.5]" />
             </Link>
             <Link
               href="/cart"
               className="relative hover:opacity-60 transition-opacity p-2"
             >
-              <ShoppingBag className="w-5 h-5 stroke-[1.5]" />
+              <ShoppingBag className="w-6 h-6 stroke-[1.5]" />
               {mounted && getTotalItems() > 0 && (
                 <span className="absolute top-1 right-1 bg-foreground text-background text-[8px] w-4 h-4 flex items-center justify-center font-bold rounded-full">
                   {getTotalItems()}
@@ -169,7 +169,7 @@ export function Navbar() {
             <Link
               key={cat.name}
               href={cat.href}
-              className="text-[10px] uppercase tracking-[0.3em] font-bold hover:opacity-40 transition-opacity luxury-underline"
+              className="text-[11px] uppercase tracking-[0.3em] font-bold hover:opacity-40 transition-opacity luxury-underline"
             >
               {cat.name}
             </Link>
@@ -229,7 +229,7 @@ export function Navbar() {
                   key={cat.name}
                   href={cat.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="block text-xl font-serif tracking-tight uppercase hover:pl-2 transition-all duration-300"
+                  className="block text-xl tracking-tight uppercase hover:pl-2 transition-all duration-300"
                 >
                   {cat.name}
                 </Link>

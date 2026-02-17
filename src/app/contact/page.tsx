@@ -38,7 +38,7 @@ export default function ContactPage() {
                   <p className="uppercase tracking-widest text-[10px] font-bold opacity-40 mb-1">
                     Call Us
                   </p>
-                  <p className="text-lg font-serif">1-800-AURELIA</p>
+                  <p className="text-lg">1-800-AURELIA</p>
                 </div>
               </div>
 
@@ -50,7 +50,7 @@ export default function ContactPage() {
                   <p className="uppercase tracking-widest text-[10px] font-bold opacity-40 mb-1">
                     Email Us
                   </p>
-                  <p className="text-lg font-serif">support@aurelia.com</p>
+                  <p className="text-lg">support@aurelia.com</p>
                 </div>
               </div>
 
@@ -62,9 +62,7 @@ export default function ContactPage() {
                   <p className="uppercase tracking-widest text-[10px] font-bold opacity-40 mb-1">
                     Visit Studio
                   </p>
-                  <p className="text-lg font-serif">
-                    123 Luxury Lane, Beverly Hills, CA
-                  </p>
+                  <p className="text-lg">123 Luxury Lane, Beverly Hills, CA</p>
                 </div>
               </div>
 
@@ -76,8 +74,8 @@ export default function ContactPage() {
                   <p className="uppercase tracking-widest text-[10px] font-bold opacity-40 mb-1">
                     Opening Hours
                   </p>
-                  <p className="text-lg font-serif">Mon - Fri: 9am - 6pm</p>
-                  <p className="text-lg font-serif">Sat: 10am - 4pm</p>
+                  <p className="text-lg">Mon - Fri: 9am - 6pm</p>
+                  <p className="text-lg">Sat: 10am - 4pm</p>
                 </div>
               </div>
             </div>

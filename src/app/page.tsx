@@ -33,30 +33,30 @@ const COLLECTIONS = [
 const TRENDING_PRODUCTS = [
   {
     id: "1",
-    name: "Calacatta Gold Slab",
-    price: 450,
-    category: "Marble",
+    name: "Kensington Vanity Unit & Stone Basin 800mm Walnut",
+    price: 997.0,
+    category: "Vanity",
     image: SIGNATURE_IMAGE,
   },
   {
     id: "2",
-    name: "Emerald Green Mosaic",
-    price: 120,
-    category: "Tiles",
+    name: "Rotunda Fluted Vanity Unit & Stone Basin 600mm Smoked Oak",
+    price: 1097.0,
+    category: "Vanity",
     image: SIGNATURE_IMAGE,
   },
   {
     id: "3",
-    name: "Matte Black Hexagon",
-    price: 85,
-    category: "Ceramic",
+    name: "Nero Curved Stone Vanity Unit 600mm",
+    price: 697.0,
+    category: "Vanity",
     image: SIGNATURE_IMAGE,
   },
   {
     id: "4",
-    name: "Travertine Vessel Sink",
-    price: 890,
-    category: "Custom",
+    name: "Park Lane Vanity Unit & Stone Basin 800mm Sabbia Grigio Oak",
+    price: 897.0,
+    category: "Vanity",
     image: SIGNATURE_IMAGE,
   },
 ];
@@ -85,7 +85,7 @@ export default function Home() {
       <Hero />
 
       {/* Intro Section */}
-      <section className="py-32 px-6 lg:px-20 text-center max-w-5xl mx-auto space-y-12">
+      <section className="pt-32 pb-5 px-6 lg:px-20 text-center max-w-5xl mx-auto space-y-12">
         <h2 className="text-3xl md:text-4xl font-serif tracking-widest leading-tight">
           Crafting Spaces that <span className="italic">Inspire</span> & Endure
         </h2>
@@ -94,7 +94,7 @@ export default function Home() {
           architectural statements that define the very essence of luxury
           living, bringing artisanal craftsmanship to the modern home.
         </p>
-        <div className="w-px h-24 bg-foreground/10 mx-auto" />
+        <div className="w-px h-6 bg-foreground/10 mx-auto" />
       </section>
 
       {/* Featured Collections */}
@@ -136,7 +136,7 @@ export default function Home() {
               className="object-cover grayscale"
             />
             <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-background p-8 hidden md:block border">
-              <p className="font-serif italic text-4xl">100%</p>
+              <p className="italic text-4xl">100%</p>
               <p className="uppercase tracking-widest text-[8px] mt-2 font-bold">
                 Handmade
               </p>
@@ -146,21 +146,17 @@ export default function Home() {
       </section>
 
       {/* Trending Products */}
-      <section className="py-32 px-6 lg:px-20">
-        <div className="flex justify-between items-end mb-16">
-          <div className="space-y-4">
-            <p className="uppercase tracking-[0.4em] text-[10px] font-bold">
-              Selection
-            </p>
-            <h2 className="text-3xl font-serif tracking-widest uppercase">
-              What&apos;s Trending
-            </h2>
-          </div>
-          <button className="hidden sm:block text-[10px] uppercase tracking-widest border-b border-foreground pb-1 font-bold">
-            View All Products
-          </button>
+      <section className="py-24 px-6 lg:px-20">
+        <div className="flex flex-col items-center text-center mb-16 space-y-4">
+          <p className="uppercase tracking-[0.4em] text-[10px] font-bold">
+            Selection
+          </p>
+          <h2 className="text-3xl font-serif tracking-[0.2em] uppercase">
+            What's Trending
+          </h2>
+          <div className="w-12 h-px bg-foreground/10 mt-4" />
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6">
           {TRENDING_PRODUCTS.map((product) => (
             <ProductCard key={product.id} {...product} />
           ))}
@@ -179,7 +175,7 @@ export default function Home() {
                     <Star key={i} className="w-3 h-3 fill-current" />
                   ))}
                 </div>
-                <p className="text-xl md:text-2xl font-serif italic tracking-wide leading-relaxed">
+                <p className="text-xl md:text-2xl italic tracking-wide leading-relaxed">
                   &quot;{review.text}&quot;
                 </p>
                 <div className="pt-4">

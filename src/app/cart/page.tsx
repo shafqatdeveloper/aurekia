@@ -102,7 +102,7 @@ export default function CartPage() {
                           <Plus className="w-3 h-3" />
                         </button>
                       </div>
-                      <p className="text-lg font-serif tracking-tight">
+                      <p className="text-lg tracking-tight">
                         ${(item.price * item.quantity).toFixed(2)}
                       </p>
                     </div>
@@ -150,7 +150,7 @@ export default function CartPage() {
                 <span className="uppercase tracking-widest text-[10px] font-bold">
                   Total Est.
                 </span>
-                <span className="text-3xl font-serif tracking-tight">
+                <span className="text-3xl tracking-tight">
                   ${subtotal.toFixed(2)}
                 </span>
               </div>

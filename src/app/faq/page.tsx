@@ -53,7 +53,7 @@ export default function FAQPage() {
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                 className="w-full py-8 flex justify-between items-center text-left hover:opacity-100 transition-opacity"
               >
-                <span className="text-xl font-serif tracking-tight uppercase">
+                <span className="text-xl tracking-tight uppercase">
                   {faq.question}
                 </span>
                 {openIndex === index ? (

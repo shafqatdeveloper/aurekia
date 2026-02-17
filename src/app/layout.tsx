@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Tenor_Sans, Lexend_Deca } from "next/font/google";
 import "@/styles/globals.css";
 import { Providers } from "@/components/Providers";
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const tenor = Tenor_Sans({
+  weight: "400",
+  variable: "--font-tenor",
   subsets: ["latin"],
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const lexend = Lexend_Deca({
+  variable: "--font-lexend",
   subsets: ["latin"],
 });
 
@@ -27,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${playfair.variable} ${inter.variable} antialiased font-sans`}
+        className={`${tenor.variable} ${lexend.variable} antialiased font-sans`}
       >
         <Providers>{children}</Providers>
       </body>
