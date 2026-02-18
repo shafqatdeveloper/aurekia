@@ -9,10 +9,12 @@ import {
   Phone,
   MessageSquare,
   X,
+  Heart,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/useCartStore";
+import { useWishlistStore } from "@/store/useWishlistStore";
 
 const CATEGORIES = [
   { name: "Stone Baths", href: "/baths" },
@@ -29,6 +31,7 @@ export function Navbar() {
   const [isIncVat, setIsIncVat] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getTotalItems } = useCartStore();
+  const { items: wishlistItems } = useWishlistStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -148,6 +151,17 @@ export function Navbar() {
               className="hidden sm:block hover:opacity-60 transition-opacity"
             >
               <User className="w-6 h-6 stroke-[1.5]" />
+            </Link>
+            <Link
+              href="/wishlist"
+              className="relative hover:opacity-60 transition-opacity p-2"
+            >
+              <Heart className="w-6 h-6 stroke-[1.5]" />
+              {mounted && wishlistItems.length > 0 && (
+                <span className="absolute top-1 right-1 bg-foreground text-background text-[8px] w-4 h-4 flex items-center justify-center font-bold rounded-full">
+                  {wishlistItems.length}
+                </span>
+              )}
             </Link>
             <Link
               href="/cart"

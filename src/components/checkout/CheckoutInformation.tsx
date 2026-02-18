@@ -1,0 +1,227 @@
+"use client";
+
+import React, { useState } from "react";
+import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
+
+interface StepProps {
+  onNext: () => void;
+  onBack?: () => void;
+}
+
+export function CheckoutInformation({ onNext }: StepProps) {
+  const [formData, setFormData] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+    address: "",
+    city: "",
+    postcode: "",
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.email) newErrors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Invalid email format";
+    if (!formData.firstName) newErrors.firstName = "First name is required";
+    if (!formData.lastName) newErrors.lastName = "Last name is required";
+    if (!formData.address) newErrors.address = "Address is required";
+    if (!formData.city) newErrors.city = "City is required";
+    if (!formData.postcode) newErrors.postcode = "Postcode is required";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validate()) {
+      onNext();
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-12 animate-in fade-in duration-500"
+    >
+      <div className="space-y-6">
+        <div className="flex justify-between items-baseline">
+          <h2 className="text-lg font-serif uppercase tracking-widest text-[#333]">
+            Contact Information
+          </h2>
+          <p className="text-[10px] font-bold uppercase tracking-widest opacity-40">
+            Step 1 of 3
+          </p>
+        </div>
+        <div className="space-y-1">
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email Address"
+            className={`w-full border ${errors.email ? "border-red-500" : "border-foreground/10"} px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30`}
+          />
+          {errors.email && (
+            <p className="text-[10px] text-red-500 font-bold uppercase tracking-widest font-sans">
+              {errors.email}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div className="space-y-6">
+        <h2 className="text-lg font-serif uppercase tracking-widest text-[#333]">
+          Shipping Address
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-1">
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              placeholder="First Name"
+              className={`w-full border ${errors.firstName ? "border-red-500" : "border-foreground/10"} px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30`}
+            />
+            {errors.firstName && (
+              <p className="text-[10px] text-red-500 font-bold uppercase tracking-widest">
+                {errors.firstName}
+              </p>
+            )}
+          </div>
+          <div className="space-y-1">
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Last Name"
+              className={`w-full border ${errors.lastName ? "border-red-500" : "border-foreground/10"} px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30`}
+            />
+            {errors.lastName && (
+              <p className="text-[10px] text-red-500 font-bold uppercase tracking-widest">
+                {errors.lastName}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <input
+          type="text"
+          placeholder="Company (Optional)"
+          className="w-full border border-foreground/10 px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30"
+        />
+
+        <div className="space-y-1">
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            placeholder="Address Line 1"
+            className={`w-full border ${errors.address ? "border-red-500" : "border-foreground/10"} px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30`}
+          />
+          {errors.address && (
+            <p className="text-[10px] text-red-500 font-bold uppercase tracking-widest">
+              {errors.address}
+            </p>
+          )}
+        </div>
+
+        <input
+          type="text"
+          placeholder="Address Line 2 (Optional)"
+          className="w-full border border-foreground/10 px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30"
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="space-y-1">
+            <input
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              placeholder="City"
+              className={`w-full border ${errors.city ? "border-red-500" : "border-foreground/10"} px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30`}
+            />
+            {errors.city && (
+              <p className="text-[10px] text-red-500 font-bold uppercase tracking-widest">
+                {errors.city}
+              </p>
+            )}
+          </div>
+          <input
+            type="text"
+            placeholder="County (Optional)"
+            className="w-full border border-foreground/10 px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all placeholder:text-foreground/30"
+          />
+          <div className="space-y-1">
+            <input
+              type="text"
+              name="postcode"
+              value={formData.postcode}
+              onChange={handleChange}
+              placeholder="Postcode"
+              className={`w-full border ${errors.postcode ? "border-red-500" : "border-foreground/10"} px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30`}
+            />
+            {errors.postcode && (
+              <p className="text-[10px] text-red-500 font-bold uppercase tracking-widest">
+                {errors.postcode}
+              </p>
+            )}
+          </div>
+        </div>
+        <div className="relative group">
+          <select className="w-full border border-foreground/10 px-4 py-4 text-sm focus:outline-none focus:border-[#333] appearance-none bg-white transition-all cursor-pointer">
+            <option>United Kingdom</option>
+            <option>Ireland</option>
+            <option>France</option>
+          </select>
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity">
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M19 9l-7 7-7-7"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-10 border-t border-foreground/5">
+        <Link
+          href="/cart"
+          className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold opacity-40 hover:opacity-100 transition-opacity group"
+        >
+          <ChevronLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
+          Back to Cart
+        </Link>
+        <button
+          type="submit"
+          className="w-full md:w-auto px-12 py-5 bg-[#333] text-white uppercase tracking-widest text-[11px] font-bold hover:bg-black transition-all hover:scale-[1.02] active:scale-95 shadow-xl shadow-black/5"
+        >
+          Continue to Shipping
+        </button>
+      </div>
+    </form>
+  );
+}

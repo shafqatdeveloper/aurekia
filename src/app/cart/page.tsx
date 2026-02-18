@@ -154,9 +154,12 @@ export default function CartPage() {
                   ${subtotal.toFixed(2)}
                 </span>
               </div>
-              <button className="w-full bg-foreground text-background py-5 uppercase tracking-widest text-[10px] font-bold hover:bg-accent hover:text-foreground transition-all">
-                Authenticate & Checkout
-              </button>
+              <Link
+                href="/checkout"
+                className="w-full bg-foreground text-background py-5 uppercase tracking-widest text-[10px] font-bold hover:bg-accent hover:text-foreground transition-all flex items-center justify-center"
+              >
+                Proceed to Checkout
+              </Link>
             </div>
           </div>
         </div>
