@@ -4,51 +4,48 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { ProductCard } from "@/components/products/ProductCard";
 import { SlidersHorizontal } from "lucide-react";
 
-const SIGNATURE_IMAGE =
-  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop";
-
 const PRODUCTS = [
   {
     id: "1",
     name: "Calacatta Gold Slab",
     price: 450,
     category: "Marble",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles1.jpg",
   },
   {
     id: "2",
     name: "Emerald Green Mosaic",
     price: 120,
     category: "Tiles",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles2.jpg",
   },
   {
     id: "3",
     name: "Matte Black Hexagon",
     price: 85,
     category: "Ceramic",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles3.jpg",
   },
   {
     id: "4",
     name: "Travertine Vessel Sink",
     price: 890,
     category: "Custom",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles4.jpg",
   },
   {
     id: "5",
     name: "Statuary White Marble",
     price: 420,
     category: "Marble",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles5.jpg",
   },
   {
     id: "6",
     name: "Oak Wood Texture Tile",
     price: 65,
     category: "Ceramic",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles6.jpg",
   },
 ];
 

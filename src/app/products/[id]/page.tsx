@@ -4,13 +4,13 @@ import { Footer } from "@/components/layout/Footer";
 import { ProductGallery } from "@/components/products/ProductGallery";
 import { ProductSpecs } from "@/components/products/ProductSpecs";
 import { ProductHighlight } from "@/components/products/ProductHighlight";
+import { ProductReviews } from "@/components/products/ProductReviews";
 import Link from "next/link";
 import { useCartStore } from "@/store/useCartStore";
 import { toast } from "sonner";
-import { Heart, Share2, Info } from "lucide-react";
+import { Heart, Share2, Mail, Phone } from "lucide-react";
 
-const SIGNATURE_IMAGE =
-  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop";
+const SIGNATURE_IMAGE = "/images/tiles4.jpg";
 
 export default function ProductDetailsPage() {
   const addItem = useCartStore((state) => state.addItem);
@@ -55,7 +55,7 @@ export default function ProductDetailsPage() {
     <main className="min-h-screen">
       <Navbar />
 
-      <div className="pt-32 pb-16 px-6 lg:px-20 max-w-7xl mx-auto">
+      <div className="pt-52 pb-16 px-6 lg:px-20 max-w-7xl mx-auto">
         {/* Breadcrumb */}
         <nav className="mb-12 flex items-center space-x-4 text-[10px] uppercase tracking-[0.3em] font-bold opacity-40">
           <Link href="/" className="hover:opacity-100 transition-opacity">
@@ -76,7 +76,7 @@ export default function ProductDetailsPage() {
           {/* Right: Info */}
           <div className="space-y-12">
             <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl font-serif tracking-tight uppercase leading-[1.1]">
+              <h1 className="text-3xl md:text-4xl font-serif tracking-wider">
                 {product.name}
               </h1>
               <div className="flex items-center justify-between border-y border-foreground/5 py-6">
@@ -102,24 +102,15 @@ export default function ProductDetailsPage() {
               </div>
             </div>
 
-            <div className="space-y-4">
-              <p className="text-muted-foreground leading-relaxed font-sans">
-                {product.description}
-              </p>
-              <button className="flex items-center space-x-2 text-[10px] uppercase tracking-widest font-bold hover:opacity-50 transition-opacity">
-                <Info className="w-4 h-4" />
-                <span>Ordering and delivery info</span>
-              </button>
-            </div>
-
-            <div className="flex space-x-2 pt-4">
+            {/* Add to Collection & Sample Buttons */}
+            <div className="flex space-x-2 pt-6">
               <button
                 onClick={handleAddToCart}
-                className="w-full bg-foreground text-background py-5 text-center uppercase tracking-widest text-[11px] font-bold hover:bg-accent hover:text-foreground transition-colors"
+                className="w-full bg-[#333] text-white py-5 text-center uppercase tracking-widest text-[11px] font-bold hover:bg-black transition-colors shadow-lg shadow-black/5"
               >
                 Add to Collection
               </button>
-              <button className="w-full border border-foreground/20 py-5 uppercase tracking-widest text-[10px] font-bold hover:bg-foreground hover:text-background transition-all">
+              <button className="w-full border border-[#333]/20 py-5 uppercase tracking-widest text-[10px] font-bold hover:bg-[#333] hover:text-white transition-all">
                 Request Sample
               </button>
             </div>
@@ -137,6 +128,68 @@ export default function ProductDetailsPage() {
             </div>
           </div>
         </div>
+
+        {/* Refined Product Details & CTA Section */}
+        <section className="mt-32 pt-20 border-t border-foreground/5">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-32">
+            {/* Left Column: Narrative Details */}
+            <div className="lg:col-span-5 space-y-10">
+              <h2 className="text-[13px] uppercase tracking-[0.4em] font-bold text-[#333]">
+                Product Details
+              </h2>
+              <div className="space-y-8">
+                <p className="text-sm md:text-[15px] leading-[1.8] text-[#333]/80 font-sans max-w-2xl">
+                  Introducing our {product.name.split(" ")[0]} collection,
+                  meticulously designed to exude luxury and style. Perfect for
+                  sophisticated spaces, this {product.category.toLowerCase()}
+                  features authentic textures and durable finishes. Each piece
+                  captures a timeless charm that seamlessly blends practicality
+                  with opulence, making it the quintessential addition to any
+                  modern project seeking an air of luxury.
+                </p>
+                <div className="space-y-4 pt-4 border-l border-[#333]/10 pl-8 italic text-[#333]/60 text-sm">
+                  <p>
+                    Discover our full collection of{" "}
+                    <Link
+                      href="/tiles"
+                      className="underline underline-offset-4 hover:text-[#333] transition-colors"
+                    >
+                      luxury surfaces
+                    </Link>
+                    .
+                  </p>
+                  <p>
+                    For more options in bespoke finishes, explore our{" "}
+                    <Link
+                      href="/tiles"
+                      className="underline underline-offset-4 hover:text-[#333] transition-colors"
+                    >
+                      material catalog
+                    </Link>{" "}
+                    for additional designs.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: CTAs */}
+            <div className="lg:col-span-4 space-y-8">
+              <h3 className="text-[13px] uppercase tracking-[0.2em] font-bold text-[#333]">
+                Got a Question?
+              </h3>
+              <div className="space-y-3">
+                <button className="w-full border border-[#333]/10 py-5 flex items-center justify-center gap-4 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-secondary/50 transition-all group">
+                  <Mail className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-opacity" />
+                  Contact Us
+                </button>
+                <button className="w-full border border-[#333]/10 py-5 flex items-center justify-center gap-4 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-secondary/50 transition-all group">
+                  <Phone className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-opacity" />
+                  Call us on 020 3488 5937
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-20">
@@ -170,6 +223,8 @@ export default function ProductDetailsPage() {
           <div className="w-px h-12 bg-foreground/10 mx-auto" />
         </div>
       </section>
+
+      <ProductReviews />
 
       <Footer />
     </main>

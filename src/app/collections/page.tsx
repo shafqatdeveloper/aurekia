@@ -3,44 +3,41 @@ import { Footer } from "@/components/layout/Footer";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { CollectionCard } from "@/components/home/CollectionCard";
 
-const SIGNATURE_IMAGE =
-  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop";
-
 const COLLECTIONS = [
   {
     title: "Carrara Marble",
     subtitle: "Timeless Italian Elegance",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles1.jpg",
     href: "/collections/carrara",
   },
   {
     title: "Ceramic Textures",
     subtitle: "Modern Artisanal Finish",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles2.jpg",
     href: "/collections/ceramic",
   },
   {
     title: "Stone Basins",
     subtitle: "Minimalist Sculptures",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles3.jpg",
     href: "/collections/stone-basins",
   },
   {
     title: "Veneer Slabs",
     subtitle: "Thin & Versatile",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles4.jpg",
     href: "/collections/veneer",
   },
   {
     title: "Mosaic Art",
     subtitle: "Intricate Details",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles5.jpg",
     href: "/collections/mosaic",
   },
   {
     title: "Outdoor Stone",
     subtitle: "Raw & Rugged",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles6.jpg",
     href: "/collections/outdoor",
   },
 ];

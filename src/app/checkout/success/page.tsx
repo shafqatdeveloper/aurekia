@@ -1,56 +1,56 @@
 "use client";
 
+import React from "react";
+import { CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { Check } from "lucide-react";
-import Link from "next/link";
+import { useCheckoutStore } from "@/store/useCheckoutStore";
 
-export default function CheckoutSuccessPage() {
-  const orderNumber = "AURE-" + Math.floor(100000 + Math.random() * 900000);
+export default function OrderSuccessPage() {
+  const clearCheckout = useCheckoutStore((state) => state.clearCheckout);
+  const orderNumber =
+    "AUREL-" + Math.random().toString(36).toUpperCase().substring(2, 8);
 
   return (
-    <main className="min-h-screen flex flex-col">
+    <main className="min-h-screen bg-white flex flex-col">
       <Navbar />
 
-      <section className="flex-1 flex flex-col items-center justify-center pt-52 pb-24 px-6 text-center">
-        <div className="w-20 h-20 bg-green-50 flex items-center justify-center rounded-full mb-8 text-green-600">
-          <Check className="w-10 h-10 stroke-[1.5]" />
-        </div>
+      <section className="flex-1 flex items-center justify-center px-6 pt-32 pb-20">
+        <div className="max-w-md w-full text-center space-y-12 animate-in fade-in zoom-in duration-1000">
+          <div className="flex flex-col items-center gap-6">
+            <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center shadow-sm">
+              <CheckCircle2 className="w-10 h-10 text-green-600" />
+            </div>
+            <div className="space-y-4">
+              <h1 className="text-4xl font-serif uppercase tracking-widest text-[#333]">
+                Acquired
+              </h1>
+              <p className="text-sm text-[#333]/60 font-sans tracking-wide leading-relaxed">
+                Your selection has been finalized. A confirmation of your
+                acquisition has been sent to your registered address.
+              </p>
+            </div>
+          </div>
 
-        <div className="max-w-xl space-y-6">
-          <p className="uppercase tracking-[0.5em] text-[10px] font-bold opacity-40">
-            Order Confirmed
-          </p>
-          <h1 className="text-4xl md:text-5xl font-serif tracking-tight uppercase">
-            Thank You for Your Acquisition
-          </h1>
-          <p className="text-sm text-muted-foreground font-sans leading-relaxed">
-            Your collection has been finalized. Artisans are now preparing your
-            materials for delivery. An email confirmation has been sent to your
-            registered address.
-          </p>
-
-          <div className="py-10 border-y border-foreground/5 space-y-2">
-            <p className="text-[10px] uppercase tracking-widest font-bold opacity-40">
-              Order Reference
+          <div className="p-8 border border-foreground/5 bg-secondary/10 space-y-4 text-left">
+            <div className="flex justify-between items-center text-[10px] uppercase tracking-widest font-bold opacity-40">
+              <span>Order Reference</span>
+              <span>{orderNumber}</span>
+            </div>
+            <p className="text-[11px] font-sans italic opacity-60">
+              Thank you for choosing Aurelia. Our artisans are now preparing
+              your collection for delivery.
             </p>
-            <p className="text-xl font-serif">{orderNumber}</p>
           </div>
 
-          <div className="pt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Link
-              href="/profile"
-              className="px-12 py-5 border border-foreground/10 uppercase tracking-widest text-[11px] font-bold hover:bg-secondary/50 transition-all w-full sm:w-auto"
-            >
-              Track Order
-            </Link>
-            <Link
-              href="/"
-              className="px-12 py-5 bg-[#333] text-white uppercase tracking-widest text-[11px] font-bold hover:bg-[#1a1a1a] transition-all w-full sm:w-auto"
-            >
-              Back to Home
-            </Link>
-          </div>
+          <Link
+            href="/"
+            onClick={() => clearCheckout()}
+            className="inline-block px-16 py-5 bg-[#333] text-white uppercase tracking-widest text-[11px] font-bold hover:bg-black transition-all hover:scale-[1.02] active:scale-95 shadow-xl shadow-black/10"
+          >
+            Return to Atelier
+          </Link>
         </div>
       </section>
 

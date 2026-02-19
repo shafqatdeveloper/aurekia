@@ -4,19 +4,26 @@ import React, { useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
+import { useCheckoutStore } from "@/store/useCheckoutStore";
+
 interface StepProps {
   onNext: () => void;
-  onBack?: () => void;
 }
 
 export function CheckoutInformation({ onNext }: StepProps) {
+  const { email, shippingAddress, setEmail, setShippingAddress } =
+    useCheckoutStore();
   const [formData, setFormData] = useState({
-    email: "",
-    firstName: "",
-    lastName: "",
-    address: "",
-    city: "",
-    postcode: "",
+    email: email || "",
+    firstName: shippingAddress.firstName || "",
+    lastName: shippingAddress.lastName || "",
+    address: shippingAddress.address || "",
+    city: shippingAddress.city || "",
+    postcode: shippingAddress.postcode || "",
+    company: shippingAddress.company || "",
+    address2: shippingAddress.address2 || "",
+    county: shippingAddress.county || "",
+    country: shippingAddress.country || "United Kingdom",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -38,11 +45,25 @@ export function CheckoutInformation({ onNext }: StepProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
+      setEmail(formData.email);
+      setShippingAddress({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        address: formData.address,
+        city: formData.city,
+        postcode: formData.postcode,
+        company: formData.company,
+        address2: formData.address2,
+        county: formData.county,
+        country: formData.country,
+      });
       onNext();
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
@@ -120,6 +141,9 @@ export function CheckoutInformation({ onNext }: StepProps) {
 
         <input
           type="text"
+          name="company"
+          value={formData.company}
+          onChange={handleChange}
           placeholder="Company (Optional)"
           className="w-full border border-foreground/10 px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30"
         />
@@ -142,6 +166,9 @@ export function CheckoutInformation({ onNext }: StepProps) {
 
         <input
           type="text"
+          name="address2"
+          value={formData.address2}
+          onChange={handleChange}
           placeholder="Address Line 2 (Optional)"
           className="w-full border border-foreground/10 px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30"
         />
@@ -164,6 +191,9 @@ export function CheckoutInformation({ onNext }: StepProps) {
           </div>
           <input
             type="text"
+            name="county"
+            value={formData.county}
+            onChange={handleChange}
             placeholder="County (Optional)"
             className="w-full border border-foreground/10 px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all placeholder:text-foreground/30"
           />

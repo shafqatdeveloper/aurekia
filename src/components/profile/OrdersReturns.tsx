@@ -1,5 +1,4 @@
-"use client";
-import React from "react";
+import Link from "next/link";
 
 export function OrdersReturns() {
   const orders = [
@@ -44,6 +43,9 @@ export function OrdersReturns() {
               <th className="py-4 text-[10px] uppercase tracking-[0.2em] font-bold opacity-40 text-right">
                 Total
               </th>
+              <th className="py-4 text-[10px] uppercase tracking-[0.2em] font-bold opacity-40 text-right">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-foreground/5">
@@ -59,6 +61,14 @@ export function OrdersReturns() {
                 </td>
                 <td className="py-5 text-sm font-sans text-right">
                   {order.total}
+                </td>
+                <td className="py-5 text-right">
+                  <Link
+                    href={`/profile/orders/${order.id.replace("#", "")}`}
+                    className="text-[10px] uppercase tracking-widest font-bold border-b border-[#333]/20 hover:border-[#333] transition-all pb-1"
+                  >
+                    Track Order
+                  </Link>
                 </td>
               </tr>
             ))}

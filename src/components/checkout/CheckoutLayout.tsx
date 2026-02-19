@@ -3,16 +3,25 @@
 import React from "react";
 import Link from "next/link";
 import { useCartStore } from "@/store/useCartStore";
+import { useCheckoutStore } from "@/store/useCheckoutStore";
+import { Tag } from "lucide-react";
 import Image from "next/image";
 
 interface CheckoutLayoutProps {
   children: React.ReactNode;
-  step: 1 | 2 | 3;
+  step: 1 | 2 | 3 | 4;
 }
 
 export function CheckoutLayout({ children, step }: CheckoutLayoutProps) {
   const { items, getTotalPrice } = useCartStore();
+  const { promoCode, discount, applyPromoCode, shippingMethod } =
+    useCheckoutStore();
   const subtotal = getTotalPrice();
+  const [promoInput, setPromoInput] = React.useState(promoCode || "");
+
+  const shippingCost = shippingMethod === "Express Courier" ? 12 : 0;
+  const discountAmount = subtotal * discount;
+  const total = subtotal + shippingCost - discountAmount;
 
   return (
     <div className="min-h-screen bg-white flex flex-col lg:flex-row">
@@ -37,6 +46,10 @@ export function CheckoutLayout({ children, step }: CheckoutLayoutProps) {
             <span className="w-4 h-px bg-foreground/10" />
             <span className={step >= 3 ? "text-[#333]" : "opacity-30"}>
               03 Payment
+            </span>
+            <span className="w-4 h-px bg-foreground/10" />
+            <span className={step >= 4 ? "text-[#333]" : "opacity-30"}>
+              04 Review
             </span>
           </nav>
         </header>
@@ -85,7 +98,37 @@ export function CheckoutLayout({ children, step }: CheckoutLayoutProps) {
           </div>
 
           <div className="space-y-6 pt-10 border-t border-[#333]/10">
+            {/* Promo Code Section */}
             <div className="space-y-4">
+              <p className="text-[10px] uppercase tracking-widest font-bold text-[#333]">
+                Promo Code
+              </p>
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    value={promoInput}
+                    onChange={(e) => setPromoInput(e.target.value)}
+                    placeholder="Enter code (e.g. AURELIA10)"
+                    className="w-full bg-white border border-[#333]/10 px-4 py-3 text-[10px] uppercase tracking-widest focus:outline-none focus:border-[#333] transition-all"
+                  />
+                  <Tag className="absolute right-4 top-1/2 -translate-y-1/2 w-3 h-3 opacity-20" />
+                </div>
+                <button
+                  onClick={() => applyPromoCode(promoInput)}
+                  className="px-6 py-3 bg-[#333] text-white text-[9px] uppercase tracking-[0.2em] font-bold hover:bg-black transition-all"
+                >
+                  Apply
+                </button>
+              </div>
+              {discount > 0 && (
+                <p className="text-[9px] text-green-600 font-bold uppercase tracking-widest">
+                  Promo code applied: 10% discount
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-4 pt-6 border-t border-[#333]/5">
               <div className="flex justify-between text-[10px] uppercase tracking-[0.15em] font-bold opacity-40">
                 <span>Subtotal</span>
                 <span>£{subtotal.toFixed(2)}</span>
@@ -93,9 +136,19 @@ export function CheckoutLayout({ children, step }: CheckoutLayoutProps) {
               <div className="flex justify-between text-[10px] uppercase tracking-[0.15em] font-bold opacity-40">
                 <span>Shipping</span>
                 <span className="italic">
-                  {step === 1 ? "Calculated at next step" : "Gratis"}
+                  {step === 1
+                    ? "Calculated at next step"
+                    : shippingCost === 0
+                      ? "Gratis"
+                      : `£${shippingCost.toFixed(2)}`}
                 </span>
               </div>
+              {discount > 0 && (
+                <div className="flex justify-between text-[10px] uppercase tracking-[0.15em] font-bold text-green-600">
+                  <span>Discount</span>
+                  <span>-£{discountAmount.toFixed(2)}</span>
+                </div>
+              )}
             </div>
 
             <div className="pt-8 border-t border-[#333]/20">
@@ -108,7 +161,7 @@ export function CheckoutLayout({ children, step }: CheckoutLayoutProps) {
                     GBP
                   </span>
                   <span className="text-3xl tracking-tighter font-serif uppercase text-[#333]">
-                    £{subtotal.toFixed(2)}
+                    £{total.toFixed(2)}
                   </span>
                 </div>
               </div>

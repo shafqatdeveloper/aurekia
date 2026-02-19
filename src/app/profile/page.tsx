@@ -20,8 +20,32 @@ const TABS = [
 
 type TabId = (typeof TABS)[number]["id"];
 
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import ConfirmationModal from "@/components/common/ConfirmationModal";
+
 export default function ProfilePage() {
+  const { data: session, status } = useSession();
   const [activeTab, setActiveTab] = useState<TabId>("personal");
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-[#333]/20 border-t-[#333] animate-spin rounded-full" />
+      </div>
+    );
+  }
+
+  if (!session) return null;
 
   const ActiveComponent =
     TABS.find((tab) => tab.id === activeTab)?.component || PersonalDetails;
@@ -70,7 +94,10 @@ export default function ProfilePage() {
               ))}
             </div>
 
-            <button className="text-[11px] uppercase tracking-widest font-bold hover:opacity-60 transition-opacity py-4 text-left md:text-right">
+            <button
+              onClick={() => setShowLogoutModal(true)}
+              className="text-[11px] uppercase tracking-widest font-bold hover:opacity-60 transition-opacity py-4 text-left md:text-right"
+            >
               Logout
             </button>
           </div>
@@ -82,6 +109,16 @@ export default function ProfilePage() {
       </section>
 
       <Footer />
+
+      <ConfirmationModal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={() => signOut()}
+        isDangerous={true}
+        title="Sign Out"
+        message="Are you sure you wish to exit your current session? You will need to re-authenticate to access your private acquisitions."
+        confirmLabel="Exit Session"
+      />
     </main>
   );
 }

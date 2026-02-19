@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Trash2 } from "lucide-react";
+
+const SIGNATURE_IMAGE = "/images/tiles3.jpg";
 
 export function Wishlist() {
   return (
@@ -20,7 +21,7 @@ export function Wishlist() {
         <div className="flex gap-4 p-4 border border-foreground/5 group hover:bg-secondary/20 transition-colors">
           <div className="relative w-24 h-24 bg-secondary overflow-hidden">
             <Image
-              src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop"
+              src={SIGNATURE_IMAGE}
               alt="Wishlist Item"
               fill
               className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"

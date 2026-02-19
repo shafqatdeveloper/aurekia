@@ -4,8 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-const SIGNATURE_IMAGE =
-  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop";
+const SIGNATURE_IMAGE = "/images/tiles6.jpg";
 
 export default function SignupPage() {
   return (

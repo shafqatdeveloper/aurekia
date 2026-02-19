@@ -7,7 +7,7 @@ export function Hero() {
     <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
       {/* Background Image Placeholder - In real app, use a high-res image */}
       <div
-        className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"
+        className="absolute inset-0 bg-[url('/images/tiles1.jpg')] bg-cover bg-center"
         aria-hidden="true"
       >
         <div className="absolute inset-0 bg-black/40" />
@@ -35,10 +35,6 @@ export function Hero() {
             Custom Design
           </Link>
         </div>
-      </div>
-
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-px h-16 bg-white/50" />
       </div>
     </section>
   );

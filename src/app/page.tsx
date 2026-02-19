@@ -6,26 +6,23 @@ import { ProductCard } from "@/components/products/ProductCard";
 import { Star, Quote } from "lucide-react";
 import Image from "next/image";
 
-const SIGNATURE_IMAGE =
-  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop";
-
 const COLLECTIONS = [
   {
     title: "Carrara Marble",
     subtitle: "Timeless Italian Elegance",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles1.jpg",
     href: "/collections/carrara",
   },
   {
     title: "Ceramic Textures",
     subtitle: "Modern Artisanal Finish",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles2.jpg",
     href: "/collections/ceramic",
   },
   {
     title: "Stone Basins",
     subtitle: "Minimalist Sculptures",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles3.jpg",
     href: "/collections/stone-basins",
   },
 ];
@@ -36,28 +33,28 @@ const TRENDING_PRODUCTS = [
     name: "Kensington Vanity Unit & Stone Basin 800mm Walnut",
     price: 997.0,
     category: "Vanity",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles4.jpg",
   },
   {
     id: "2",
     name: "Rotunda Fluted Vanity Unit & Stone Basin 600mm Smoked Oak",
     price: 1097.0,
     category: "Vanity",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles5.jpg",
   },
   {
     id: "3",
     name: "Nero Curved Stone Vanity Unit 600mm",
     price: 697.0,
     category: "Vanity",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles6.jpg",
   },
   {
     id: "4",
     name: "Park Lane Vanity Unit & Stone Basin 800mm Sabbia Grigio Oak",
     price: 897.0,
     category: "Vanity",
-    image: SIGNATURE_IMAGE,
+    image: "/images/tiles1.jpg",
   },
 ];
 
@@ -128,9 +125,9 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <div className="relative aspect-[1/1] lg:aspect-[16/9]">
+          <div className="relative aspect-square lg:aspect-video">
             <Image
-              src={SIGNATURE_IMAGE}
+              src="/images/tiles2.jpg"
               alt="Craftsmanship"
               fill
               className="object-cover grayscale"

@@ -1,7 +1,6 @@
-"use client";
-
-import React, { useState } from "react";
+import { useCheckoutStore } from "@/store/useCheckoutStore";
 import { ChevronLeft, Lock } from "lucide-react";
+import { useState } from "react";
 
 interface StepProps {
   onNext: () => void;
@@ -9,6 +8,13 @@ interface StepProps {
 }
 
 export function CheckoutPayment({ onNext, onBack }: StepProps) {
+  const {
+    useShippingAsBilling,
+    setUseShippingAsBilling,
+    billingAddress,
+    setBillingAddress,
+  } = useCheckoutStore();
+
   const [cardDetails, setCardDetails] = useState({
     number: "",
     expiry: "",
@@ -17,6 +23,15 @@ export function CheckoutPayment({ onNext, onBack }: StepProps) {
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const [billingData, setBillingData] = useState({
+    firstName: billingAddress.firstName || "",
+    lastName: billingAddress.lastName || "",
+    address: billingAddress.address || "",
+    city: billingAddress.city || "",
+    postcode: billingAddress.postcode || "",
+    country: billingAddress.country || "United Kingdom",
+  });
 
   const formatCardNumber = (val: string) => {
     return val
@@ -45,6 +60,13 @@ export function CheckoutPayment({ onNext, onBack }: StepProps) {
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
+  const handleBillingChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target;
+    setBillingData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (cardDetails.number.replace(/\s/g, "").length < 16)
@@ -54,6 +76,18 @@ export function CheckoutPayment({ onNext, onBack }: StepProps) {
     if (cardDetails.cvv.length < 3) newErrors.cvv = "Invalid CVV";
     if (!cardDetails.name) newErrors.name = "Name is required";
 
+    if (!useShippingAsBilling) {
+      if (!billingData.firstName)
+        newErrors.billingFirstName = "First name is required";
+      if (!billingData.lastName)
+        newErrors.billingLastName = "Last name is required";
+      if (!billingData.address)
+        newErrors.billingAddress = "Address is required";
+      if (!billingData.city) newErrors.billingCity = "City is required";
+      if (!billingData.postcode)
+        newErrors.billingPostcode = "Postcode is required";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -61,10 +95,14 @@ export function CheckoutPayment({ onNext, onBack }: StepProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
+      if (!useShippingAsBilling) {
+        setBillingAddress(billingData);
+      }
       setIsProcessing(true);
       setTimeout(() => {
+        setIsProcessing(false);
         onNext();
-      }, 2000);
+      }, 1000);
     }
   };
 
@@ -80,7 +118,7 @@ export function CheckoutPayment({ onNext, onBack }: StepProps) {
               Payment Details
             </h2>
             <p className="text-[10px] font-bold uppercase tracking-widest opacity-40">
-              Step 3 of 3
+              Step 3 of 4
             </p>
           </div>
           <div className="flex items-center gap-3 bg-secondary/30 px-4 py-2 rounded-full border border-foreground/5">
@@ -163,16 +201,74 @@ export function CheckoutPayment({ onNext, onBack }: StepProps) {
         <h2 className="text-lg font-serif uppercase tracking-widest text-[#333]">
           Billing Address
         </h2>
-        <label className="flex items-center gap-4 p-8 border-2 border-[#333]/10 cursor-pointer bg-white group hover:border-[#333]/30 transition-all">
-          <input
-            type="checkbox"
-            defaultChecked
-            className="w-5 h-5 accent-[#333] cursor-pointer"
-          />
-          <span className="text-xs font-bold uppercase tracking-widest text-[#333]">
-            Same as shipping address
-          </span>
-        </label>
+        <div className="space-y-6">
+          <label
+            className={`flex items-center gap-4 p-8 border-2 ${useShippingAsBilling ? "border-[#333] shadow-lg shadow-black/5" : "border-[#333]/10"} cursor-pointer bg-white group hover:border-[#333]/30 transition-all`}
+          >
+            <input
+              type="checkbox"
+              checked={useShippingAsBilling}
+              onChange={(e) => setUseShippingAsBilling(e.target.checked)}
+              className="w-5 h-5 accent-[#333] cursor-pointer"
+            />
+            <span className="text-xs font-bold uppercase tracking-widest text-[#333]">
+              Same as shipping address
+            </span>
+          </label>
+
+          {!useShippingAsBilling && (
+            <div className="p-8 border-2 border-[#333]/10 bg-secondary/5 space-y-4 animate-in fade-in slide-in-from-top-4 duration-500">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={billingData.firstName}
+                    onChange={handleBillingChange}
+                    placeholder="First Name"
+                    className={`w-full border ${errors.billingFirstName ? "border-red-500" : "border-foreground/10"} px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30`}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={billingData.lastName}
+                    onChange={handleBillingChange}
+                    placeholder="Last Name"
+                    className={`w-full border ${errors.billingLastName ? "border-red-500" : "border-foreground/10"} px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30`}
+                  />
+                </div>
+              </div>
+              <input
+                type="text"
+                name="address"
+                value={billingData.address}
+                onChange={handleBillingChange}
+                placeholder="Address"
+                className={`w-full border ${errors.billingAddress ? "border-red-500" : "border-foreground/10"} px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30`}
+              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  name="city"
+                  value={billingData.city}
+                  onChange={handleBillingChange}
+                  placeholder="City"
+                  className={`w-full border ${errors.billingCity ? "border-red-500" : "border-foreground/10"} px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30`}
+                />
+                <input
+                  type="text"
+                  name="postcode"
+                  value={billingData.postcode}
+                  onChange={handleBillingChange}
+                  placeholder="Postcode"
+                  className={`w-full border ${errors.billingPostcode ? "border-red-500" : "border-foreground/10"} px-4 py-4 text-sm focus:outline-none focus:border-[#333] transition-all bg-white placeholder:text-foreground/30`}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-10 border-t border-foreground/5">
@@ -195,7 +291,7 @@ export function CheckoutPayment({ onNext, onBack }: StepProps) {
               Processing...
             </>
           ) : (
-            "Pay & Finalize Collection"
+            "Continue to Review"
           )}
         </button>
       </div>

@@ -15,6 +15,9 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/useCartStore";
 import { useWishlistStore } from "@/store/useWishlistStore";
+import { useSession, signOut } from "next-auth/react";
+import { usePathname } from "next/navigation";
+import ConfirmationModal from "@/components/common/ConfirmationModal";
 
 const CATEGORIES = [
   { name: "Stone Baths", href: "/baths" },
@@ -33,8 +36,11 @@ export function Navbar() {
   const { getTotalItems } = useCartStore();
   const { items: wishlistItems } = useWishlistStore();
   const [mounted, setMounted] = useState(false);
+  const { status } = useSession();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   useEffect(() => {
+    // ...
     setMounted(true);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -147,11 +153,19 @@ export function Navbar() {
           {/* Right: Icons */}
           <div className="flex items-center gap-3 justify-self-end">
             <Link
-              href="/profile"
+              href={status === "authenticated" ? "/profile" : "/login"}
               className="hidden sm:block hover:opacity-60 transition-opacity"
             >
-              <User className="w-6 h-6 stroke-[1.5]" />
+              <User className={cn("w-6 h-6 stroke-[1.5]")} />
             </Link>
+            {status === "authenticated" && (
+              <button
+                onClick={() => setShowLogoutModal(true)}
+                className="hidden lg:block text-[9px] uppercase tracking-widest font-bold opacity-40 hover:opacity-100 transition-opacity"
+              >
+                Sign Out / Exit
+              </button>
+            )}
             <Link
               href="/wishlist"
               className="relative hover:opacity-60 transition-opacity p-2"
@@ -303,6 +317,15 @@ export function Navbar() {
           </div>
         </div>
       </div>
+      <ConfirmationModal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={() => signOut()}
+        title="Sign Out"
+        isDangerous={true}
+        message="Are you sure you wish to exit your current session? You will need to re-authenticate to access your private acquisitions."
+        confirmLabel="Exit Session"
+      />
     </header>
   );
 }

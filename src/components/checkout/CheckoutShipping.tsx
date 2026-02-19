@@ -2,6 +2,7 @@
 
 import React from "react";
 import { ChevronLeft } from "lucide-react";
+import { useCheckoutStore } from "@/store/useCheckoutStore";
 
 interface StepProps {
   onNext: () => void;
@@ -9,6 +10,8 @@ interface StepProps {
 }
 
 export function CheckoutShipping({ onNext, onBack }: StepProps) {
+  const { shippingMethod, setShippingMethod } = useCheckoutStore();
+
   return (
     <div className="space-y-12 animate-in slide-in-from-right duration-500">
       <div className="space-y-6">
@@ -17,17 +20,20 @@ export function CheckoutShipping({ onNext, onBack }: StepProps) {
             Shipping Method
           </h2>
           <p className="text-[10px] font-bold uppercase tracking-widest opacity-40">
-            Step 2 of 3
+            Step 2 of 4
           </p>
         </div>
 
         <div className="space-y-4">
-          <label className="flex items-center justify-between p-8 cursor-pointer border-2 border-[#333]/10 bg-white hover:border-[#333]/30 transition-all group relative">
+          <label
+            className={`flex items-center justify-between p-8 cursor-pointer border-2 ${shippingMethod === "Standard Delivery" ? "border-[#333] bg-white shadow-lg shadow-black/5" : "border-[#333]/10 bg-white/50"} hover:border-[#333]/30 transition-all group relative`}
+          >
             <div className="flex items-center gap-6">
               <input
                 type="radio"
                 name="shipping"
-                defaultChecked
+                checked={shippingMethod === "Standard Delivery"}
+                onChange={() => setShippingMethod("Standard Delivery")}
                 className="w-5 h-5 accent-[#333] cursor-pointer"
               />
               <div className="space-y-1">
@@ -42,11 +48,15 @@ export function CheckoutShipping({ onNext, onBack }: StepProps) {
             <p className="text-sm font-bold italic text-[#333]">Free</p>
           </label>
 
-          <label className="flex items-center justify-between p-8 cursor-pointer border-2 border-foreground/5 bg-white hover:border-[#333]/30 transition-all group relative">
+          <label
+            className={`flex items-center justify-between p-8 cursor-pointer border-2 ${shippingMethod === "Express Courier" ? "border-[#333] bg-white shadow-lg shadow-black/5" : "border-[#333]/10 bg-white/50"} hover:border-[#333]/30 transition-all group relative`}
+          >
             <div className="flex items-center gap-6">
               <input
                 type="radio"
                 name="shipping"
+                checked={shippingMethod === "Express Courier"}
+                onChange={() => setShippingMethod("Express Courier")}
                 className="w-5 h-5 accent-[#333] cursor-pointer"
               />
               <div className="space-y-1">

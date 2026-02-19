@@ -1,85 +1,159 @@
+"use client";
+
+import React, { useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import Image from "next/image";
-
-const SIGNATURE_IMAGE =
-  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2070&auto=format&fit=crop";
+import { toast } from "sonner";
+import { ArrowRight, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import SpinnerLoader from "@/components/common/SpinnerLoader";
 
 export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+
+      if (result?.error) {
+        toast.error(result.error);
+      } else {
+        toast.success("Welcome back to Aurelia");
+        router.push("/profile");
+        router.refresh();
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <main className="min-h-screen bg-background flex flex-col">
+    <main className="min-h-screen pt-10 bg-white flex flex-col">
       <Navbar />
 
-      <section className="flex-1 grid grid-cols-1 lg:grid-cols-2">
-        <div className="flex flex-col items-center justify-center px-6 pt-72 pb-40">
-          <div className="w-full max-w-lg space-y-16">
-            <div className="text-center space-y-6">
-              <h1 className="text-4xl md:text-5xl font-serif tracking-tight uppercase leading-none">
-                The Studio
-              </h1>
-              <p className="text-muted-foreground uppercase tracking-[0.3em] text-[10px] font-bold">
-                Sign in to your account
-              </p>
+      <section className="flex-1 flex items-center justify-center pt-40 pb-24 px-6">
+        <div className="w-full max-w-[450px] space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <div className="text-center space-y-4">
+            <h1 className="text-4xl font-serif uppercase tracking-[0.2em] text-[#333]">
+              Login
+            </h1>
+            <p className="text-[11px] uppercase tracking-widest font-bold opacity-40">
+              Access your personal collection
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <label
+                htmlFor="email"
+                className="text-[10px] uppercase tracking-widest font-bold opacity-60"
+              >
+                Email Address
+              </label>
+              <div className="relative group">
+                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-[#333]/20 group-focus-within:text-[#333] transition-colors">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full pl-14 pr-6 py-5 bg-secondary/20 border border-transparent focus:border-[#333]/10 focus:bg-white transition-all text-sm font-sans outline-none"
+                  placeholder="Enter your email"
+                />
+              </div>
             </div>
 
-            <form className="space-y-10 group">
-              <div className="space-y-12">
-                <div className="relative">
-                  <input
-                    type="email"
-                    placeholder="EMAIL ADDRESS"
-                    className="w-full bg-transparent border-b border-foreground/10 py-5 text-[10px] tracking-[0.3em] focus:border-foreground outline-none transition-all uppercase placeholder:opacity-40"
-                    required
-                  />
-                </div>
-                <div className="relative">
-                  <input
-                    type="password"
-                    placeholder="PASSWORD"
-                    className="w-full bg-transparent border-b border-foreground/10 py-5 text-[10px] tracking-[0.3em] focus:border-foreground outline-none transition-all uppercase placeholder:opacity-40"
-                    required
-                  />
-                </div>
-              </div>
-
-              <button className="w-full bg-foreground text-background py-5 uppercase tracking-[0.3em] text-[10px] font-bold hover:bg-accent hover:text-foreground transition-all flex items-center justify-center gap-3">
-                Enter the Studio
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </form>
-
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-12 border-t border-foreground/10">
-              <Link
-                href="#"
-                className="uppercase tracking-[0.3em] text-[10px] font-bold opacity-40 hover:opacity-100 transition-opacity"
-              >
-                Forgot Password?
-              </Link>
-              <div className="flex items-center gap-4">
-                <span className="uppercase tracking-[0.3em] text-[10px] font-bold opacity-40 italic">
-                  New to Aurelia?
-                </span>
-                <Link
-                  href="/signup"
-                  className="text-[10px] uppercase tracking-[0.3em] font-bold border-b border-foreground pb-1"
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <label
+                  htmlFor="password"
+                  className="text-[10px] uppercase tracking-widest font-bold opacity-60"
                 >
-                  Create Account
+                  Password
+                </label>
+                <Link
+                  href="/forgot-password"
+                  className="text-[10px] uppercase tracking-widest font-bold opacity-30 hover:opacity-100 transition-opacity"
+                >
+                  Forgot?
                 </Link>
               </div>
+              <div className="relative group">
+                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-[#333]/20 group-focus-within:text-[#333] transition-colors">
+                  <Lock className="w-4 h-4" />
+                </div>
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full pl-14 pr-14 py-5 bg-secondary/20 border border-transparent focus:border-[#333]/10 focus:bg-white transition-all text-sm font-sans outline-none"
+                  placeholder="Enter your password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-5 top-1/2 -translate-y-1/2 text-[#333]/20 hover:text-[#333] transition-colors"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div className="hidden lg:block relative h-full min-h-[600px]">
-          <Image
-            src={SIGNATURE_IMAGE}
-            alt="Luxury Material"
-            fill
-            className="object-cover grayscale"
-          />
-          <div className="absolute inset-0 bg-black/20" />
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-[#333] text-white h-14 uppercase tracking-[0.3em] text-[11px] font-bold hover:bg-black transition-all group relative overflow-hidden disabled:opacity-50 flex items-center justify-center"
+            >
+              <span className={"flex items-center justify-center gap-2"}>
+                {loading ? (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <SpinnerLoader className="w-6! h-6!" />
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    Login
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                )}
+              </span>
+            </button>
+          </form>
+
+          <div className="text-center pt-4">
+            <p className="text-[11px] uppercase tracking-widest font-bold opacity-40">
+              Don't have an account?{" "}
+              <Link
+                href="/register"
+                className="text-[#333] border-b border-[#333]/20 hover:border-[#333] transition-all pb-0.5 ml-1"
+              >
+                Create one
+              </Link>
+            </p>
+          </div>
         </div>
       </section>
 
